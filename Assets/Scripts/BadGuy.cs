@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class BadGuy : MonoBehaviour
 {
+    public SpriteRenderer spriteRenderer;
 
     public bool goForward = false;
 
@@ -16,10 +17,12 @@ public class BadGuy : MonoBehaviour
         if (goForward)
         {
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            spriteRenderer.flipX = false;
         } 
         else // go backward
         {
             transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+            spriteRenderer.flipX = true;
         }
     }
 
