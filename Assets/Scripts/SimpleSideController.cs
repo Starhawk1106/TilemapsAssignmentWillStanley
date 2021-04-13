@@ -11,6 +11,8 @@ public class SimpleSideController : MonoBehaviour
 
     public float bulletForce = 50.0f;
 
+    public Joystick joystick;
+
     Rigidbody2D blahblah;
 
     Animator animator;
@@ -27,38 +29,62 @@ public class SimpleSideController : MonoBehaviour
         blahblah = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        joystick = FindObjectOfType<Joystick>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // What Moves Us
-        float horizontalInput = Input.GetAxis("Horizontal");
-        //Get the value of the Horizontal input axis.
+        float horizontalInput;
 
-        transform.Translate(new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime);
-
-        if (horizontalInput > 0) 
+        if (joystick.Horizontal >= .2f)
         {
+            horizontalInput = moveSpeed;
             animator.SetBool("isRunning", true);
             spriteRenderer.flipX = false;
             fireForward = true;
-        } 
-        else if (horizontalInput < 0) 
+        }
+        else if (joystick.Horizontal <= -.2f)
         {
+            horizontalInput = -moveSpeed;
             animator.SetBool("isRunning", true);
             spriteRenderer.flipX = true;
             fireForward = false;
-        } 
-        else 
+        }
+        else
         {
             animator.SetBool("isRunning", false);
+            horizontalInput = 0f;
         }
+
+        //Get the value of the Horizontal input axis.
+
+        transform.Translate(new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime);
+        // if (horizontalInput > 0) 
+        // {
+        //     animator.SetBool("isRunning", true);
+        //     spriteRenderer.flipX = false;
+        //     fireForward = true;
+        // } 
+        // else if (horizontalInput < 0) 
+        // {
+        //     animator.SetBool("isRunning", true);
+        //     spriteRenderer.flipX = true;
+        //     fireForward = false;
+        // } 
+        // else 
+        // {
+        //     animator.SetBool("isRunning", false);
+        // }
     }
 
     void FixedUpdate() 
     {
-        if (Input.GetButton("Jump") && isGrounded) 
+        float verticalMove = joystick.Vertical;
+
+        if (verticalMove >= .5f && isGrounded) 
         {
             blahblah.AddForce(transform.up * jumpForce);
             animator.SetBool("isJumping", true);

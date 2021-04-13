@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FOD_WHS_02.unity
     guid: 3dfe88fd655686344b7e1ef602331956
+  - enabled: 1
+    path: Assets/Scenes/FOD_WHS_03.unity
+    guid: 79960546786404b4f9f6be21f58d0200
   m_configObjects: {}
